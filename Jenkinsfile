@@ -22,16 +22,17 @@ pipeline {
             }
         }
 
-        stage('Security Scan') {
-            steps {
-                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://localhost:8080&recurse=true&inScopeOnly=false"'
-            }
-        }
-
         stage('Deploy to Production') {
             steps {
                 sh 'ansible-playbook -i deploy/inventory.ini deploy/deploy.yml'
             }
         }
+
+        stage('Security Scan') {
+            steps {
+                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://prod-server:8080&recurse=true&inScopeOnly=false"'
+            }
+        }
+
     }
 }
