@@ -30,7 +30,7 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://devsecops-prod-server:8080&recurse=true&inScopeOnly=false"'
+                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://prod-server:8080&recurse=true&inScopeOnly=false"'
             }
         }
 
