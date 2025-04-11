@@ -1,0 +1,23 @@
+- name: Deploy Spring PetClinic to Docker Container
+  hosts: web
+  become: false
+  tasks:
+    - name: Ensure target directory exists
+      file:
+        path: /root/spring-app
+        state: directory
+
+    - name: Copy JAR file to container
+      copy:
+        src: ../target/spring-petclinic-*.jar
+        dest: /root/spring-app/app.jar
+        mode: "0755"
+
+    - name: Kill any existing app process
+      shell: |
+        pkill -f 'java -jar' || true
+      ignore_errors: yes
+
+    - name: Start Spring PetClinic
+      shell: |
+        nohup java -jar /root/spring-app/app.jar > /root/spring-app/output.log 2>&1 &
