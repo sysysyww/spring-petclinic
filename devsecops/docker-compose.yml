@@ -36,10 +36,11 @@ services:
       - devsecops-net
 
   zap:
-    image: owasp/zap2docker-stable
+    image: zaproxy/zap-stable
     command: zap.sh -daemon -host 0.0.0.0 -port 8080
     ports:
       - "8081:8080"
+    entrypoint: [ "tail", "-f", "/dev/null" ]  # 让容器保持运行
     networks:
       - devsecops-net
 

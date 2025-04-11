@@ -24,13 +24,13 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://your-app-url:8080&recurse=true&inScopeOnly=false"'
+                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://localhost:8080&recurse=true&inScopeOnly=false"'
             }
         }
 
         stage('Deploy to Production') {
             steps {
-                sh 'ansible-playbook -i ansible/inventory.ini ansible/deploy.yml'
+                sh 'ansible-playbook -i deploy/inventory.ini deploy/deploy.yml'
             }
         }
     }
