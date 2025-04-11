@@ -9,7 +9,7 @@
 
     - name: Copy JAR file to container
       copy:
-        src: ../target/spring-petclinic-*.jar
+        src: "{{ jar_path }}"
         dest: /root/spring-app/app.jar
         mode: "0755"
 

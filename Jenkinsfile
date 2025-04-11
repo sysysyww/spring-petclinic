@@ -22,9 +22,11 @@ pipeline {
             }
         }
 
-        stage('Deploy to Production') {
+
+     stage('Deploy to Production') {
             steps {
-                sh 'ansible-playbook -i deploy/inventory.ini deploy/deploy.yml'
+                def jarPath = sh(script: "ls target/spring-petclinic-*.jar", returnStdout: true).trim()
+                sh "ansible-playbook -i deploy/inventory.ini deploy/deploy.yml --extra-vars 'jar_path=${jarPath}'"
             }
         }
 
