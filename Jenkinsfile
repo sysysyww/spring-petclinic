@@ -34,7 +34,24 @@ pipeline {
 
         stage('Security Scan') {
             steps {
-                sh 'curl "http://zap:8080/JSON/ascan/action/scan/?url=http://prod-server:8080&recurse=true&inScopeOnly=false"'
+                sh '''
+                    curl "http://zap:8080/JSON/ascan/action/scan/?url=http://prod-server:8080&recurse=true&inScopeOnly=false"
+                    sleep 20
+                    curl "http://zap:8080/OTHER/core/other/htmlreport/" -o zap-report.html
+                '''
+            }
+        }
+
+        stage('Publish ZAP Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'zap-report.html',
+                    reportName: 'OWASP ZAP HTML Report'
+                ])
             }
         }
 
