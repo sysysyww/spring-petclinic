@@ -2,6 +2,12 @@
   hosts: web
   become: false
   tasks:
+    - name: Ensure Java is installed
+      apt:
+        name: openjdk-17-jre
+        state: present
+      become: true
+
     - name: Ensure target directory exists
       file:
         path: /root/spring-app
